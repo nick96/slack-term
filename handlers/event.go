@@ -28,6 +28,8 @@ var actionMap = map[string]func(*context.AppContext){
 	"delete":              actionDelete,
 	"cursor-right":        actionMoveCursorRight,
 	"cursor-left":         actionMoveCursorLeft,
+	"cursor-bol":          actionMoveCursorBOL,
+	"cursor-eol":          actionMoveCursorEOL,
 	"send":                actionSend,
 	"quit":                actionQuit,
 	"mode-insert":         actionInsertMode,
@@ -223,6 +225,36 @@ func actionMoveCursorRight(ctx *context.AppContext) {
 
 func actionMoveCursorLeft(ctx *context.AppContext) {
 	ctx.View.Input.MoveCursorLeft()
+	termui.Render(ctx.View.Input)
+}
+
+func actionMoveCursorBOL(ctx *context.AppContext) {
+	ctx.View.Debug.Println(fmt.Sprintf("was - screen pos: %d, text pos: %d, offset: %d",
+		ctx.View.Input.CursorPositionScreen,
+		ctx.View.Input.CursorPositionText,
+		ctx.View.Input.Offset,
+	))
+	ctx.View.Input.MoveCursorToBOL()
+	ctx.View.Debug.Println(fmt.Sprintf("now - screen pos: %d, text pos: %d, offset: %d",
+		ctx.View.Input.CursorPositionScreen,
+		ctx.View.Input.CursorPositionText,
+		ctx.View.Input.Offset,
+	))
+	termui.Render(ctx.View.Input)
+}
+
+func actionMoveCursorEOL(ctx *context.AppContext) {
+	ctx.View.Debug.Println(fmt.Sprintf("was - screen pos: %d, text pos: %d, offset: %d",
+		ctx.View.Input.CursorPositionScreen,
+		ctx.View.Input.CursorPositionText,
+		ctx.View.Input.Offset,
+	))
+	ctx.View.Input.MoveCursorToEOL()
+	ctx.View.Debug.Println(fmt.Sprintf("now - screen pos: %d, text pos: %d, offset: %d",
+		ctx.View.Input.CursorPositionScreen,
+		ctx.View.Input.CursorPositionText,
+		ctx.View.Input.Offset,
+	))
 	termui.Render(ctx.View.Input)
 }
 

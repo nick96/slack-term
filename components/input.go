@@ -119,6 +119,20 @@ func (i *Input) MoveCursorLeft() {
 	i.Par.Text = string(i.Text[i.Offset:])
 }
 
+// MoveCursorToBOL will move the cursor to the beginning of the line
+func (i *Input) MoveCursorToBOL() {
+	for i.CursorPositionText > 0 {
+		i.MoveCursorLeft()
+	}
+}
+
+// MoveCursorToEOL will move the cursor to the end of the line
+func (i *Input) MoveCursorToEOL() {
+	for i.CursorPositionText < len(i.GetText()) {
+		i.MoveCursorRight()
+	}
+}
+
 func (i *Input) ScrollLeft() {
 	// Is the cursor at the far left of the Input component?
 	if i.CursorPositionScreen == 0 {
